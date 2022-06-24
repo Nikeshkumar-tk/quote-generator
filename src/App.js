@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
+import './App.css'
 function App() {
+  const [quote,setQuote]=useState('');
+ 
+  useEffect(()=>{
+   fetchQuote()
+  },[])
+
+  
+  const fetchQuote=()=>{
+    axios.get('https://api.adviceslip.com/advice').then((response)=>{
+    console.log(response.data.slip.advice);
+    setQuote(response.data.slip.advice)
+    }
+  )
+}
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <span className='item'><h2 className='font'>{quote}</h2><button onClick={()=>{
+        fetchQuote()
+      }} className='glow-on-hover'>click me</button><div></div></span>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
